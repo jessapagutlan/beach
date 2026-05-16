@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reservations>
+
+    <reservation id="1">
+        <user>
+            <id>2</id>
+            <name>Juan Dela Cruz</name>
+            <email>juan@email.com</email>
+        </user>
+        <resort>
+            <id>1</id>
+            <name>Dahican Surf Resort</name>
+        </resort>
+        <check_in>2025-06-10</check_in>
+        <check_out>2025-06-13</check_out>
+        <guests>2</guests>
+        <total_price currency="PHP">7500.00</total_price>
+        <status>confirmed</status>
+        <special_requests>Early check-in if possible</special_requests>
+        <created_at>2025-05-16T08:30:00</created_at>
+    </reservation>
+
+    <reservation id="2">
+        <user>
+            <id>2</id>
+            <name>Juan Dela Cruz</name>
+            <email>juan@email.com</email>
+        </user>
+        <resort>
+            <id>3</id>
+            <name>Pujada Bay Eco Resort</name>
+        </resort>
+        <check_in>2025-07-01</check_in>
+        <check_out>2025-07-04</check_out>
+        <guests>4</guests>
+        <total_price currency="PHP">9600.00</total_price>
+        <status>pending</status>
+        <special_requests>Need diving lessons for beginners</special_requests>
+        <created_at>2025-05-16T10:00:00</created_at>
+    </reservation>
+
+</reservations>

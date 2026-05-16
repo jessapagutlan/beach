@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resorts>
+
+    <resort id="1">
+        <name>Dahican Surf Resort</name>
+        <location>Dahican Beach, Mati City, Davao Oriental</location>
+        <description>World-class surfing destination with pristine white sand beach and crystal-clear waters perfect for surfing and relaxation.</description>
+        <amenities>
+            <amenity>Swimming Pool</amenity>
+            <amenity>Surfboard Rental</amenity>
+            <amenity>Restaurant</amenity>
+            <amenity>Free WiFi</amenity>
+            <amenity>Parking</amenity>
+            <amenity>Beach Access</amenity>
+        </amenities>
+        <price_per_night currency="PHP">2500.00</price_per_night>
+        <capacity>30</capacity>
+        <contact>
+            <email>dahican@resort.com</email>
+            <phone>09181234567</phone>
+        </contact>
+        <status>active</status>
+    </resort>
+
+    <resort id="2">
+        <name>Cape San Agustin Beach Resort</name>
+        <location>Cape San Agustin, Governor Generoso, Davao Oriental</location>
+        <description>Breathtaking cliff views and untouched natural beauty. Perfect for adventurers and nature lovers.</description>
+        <amenities>
+            <amenity>Cottages</amenity>
+            <amenity>Snorkeling Gear</amenity>
+            <amenity>Bonfire Area</amenity>
+            <amenity>Camping Ground</amenity>
+            <amenity>Guided Tours</amenity>
+        </amenities>
+        <price_per_night currency="PHP">1800.00</price_per_night>
+        <capacity>20</capacity>
+        <contact>
+            <email>capesan@resort.com</email>
+            <phone>09182345678</phone>
+        </contact>
+        <status>active</status>
+    </resort>
+
+    <resort id="3">
+        <name>Pujada Bay Eco Resort</name>
+        <location>Pujada Bay, Mati City, Davao Oriental</location>
+        <description>Eco-friendly resort nestled in the biodiversity hotspot of Pujada Bay. Ideal for marine enthusiasts.</description>
+        <amenities>
+            <amenity>Diving Equipment</amenity>
+            <amenity>Kayak Rental</amenity>
+            <amenity>Mangrove Tours</amenity>
+            <amenity>Restaurant</amenity>
+            <amenity>Solar Power</amenity>
+        </amenities>
+        <price_per_night currency="PHP">3200.00</price_per_night>
+        <capacity>25</capacity>
+        <contact>
+            <email>pujada@resort.com</email>
+            <phone>09183456789</phone>
+        </contact>
+        <status>active</status>
+    </resort>
+
+    <resort id="4">
+        <name>Aliwagwag Paradise Resort</name>
+        <location>Aliwagwag, Cateel, Davao Oriental</location>
+        <description>Located near the majestic Aliwagwag Falls. Experience the magic of cascading waterfalls and lush rainforest.</description>
+        <amenities>
+            <amenity>Waterfall Tours</amenity>
+            <amenity>Swimming Area</amenity>
+            <amenity>Cottage Rental</amenity>
+            <amenity>BBQ Area</amenity>
+            <amenity>Nature Trails</amenity>
+        </amenities>
+        <price_per_night currency="PHP">1500.00</price_per_night>
+        <capacity>40</capacity>
+        <contact>
+            <email>aliwagwag@resort.com</email>
+            <phone>09184567890</phone>
+        </contact>
+        <status>active</status>
+    </resort>
+
+    <resort id="5">
+        <name>Tarragona Beach Club</name>
+        <location>Tarragona, Davao Oriental</location>
+        <description>Quiet and secluded beach resort ideal for family getaways and group events. Stunning sunrise views.</description>
+        <amenities>
+            <amenity>Function Hall</amenity>
+            <amenity>Beach Volleyball</amenity>
+            <amenity>Restaurant</amenity>
+            <amenity>Karaoke</amenity>
+            <amenity>Water Sports</amenity>
+        </amenities>
+        <price_per_night currency="PHP">2200.00</price_per_night>
+        <capacity>50</capacity>
+        <contact>
+            <email>tarragona@resort.com</email>
+            <phone>09185678901</phone>
+        </contact>
+        <status>active</status>
+    </resort>
+
+</resorts>

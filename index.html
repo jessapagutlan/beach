@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>BeachWatch — Beach Resort Reservation System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Lato:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --ocean: #0077b6;
+            --ocean-light: #00b4d8;
+            --deep: #03045e;
+            --sand: #f4e1c0;
+            --coral: #e76f51;
+            --foam: #caf0f8;
+            --white: #ffffff;
+            --gray: #6c757d;
+            --text: #1a1a2e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* ── NAVBAR ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 60px;
+            background: rgba(3, 4, 94, 0.85);
+            backdrop-filter: blur(12px);
+            transition: background 0.3s;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--white);
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+        .nav-logo span { color: var(--ocean-light); }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--ocean-light); }
+        .nav-cta {
+            background: var(--coral);
+            color: white !important;
+            padding: 8px 22px;
+            border-radius: 25px;
+            transition: background 0.2s !important;
+        }
+        .nav-cta:hover { background: #c1440e !important; color: white !important; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            background:
+                linear-gradient(to bottom, rgba(3,4,94,0.7) 0%, rgba(0,119,182,0.4) 60%, rgba(0,180,216,0.2) 100%),
+                url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 120px;
+            background: linear-gradient(to top, #ffffff, transparent);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 180, 216, 0.25);
+            border: 1px solid rgba(0, 180, 216, 0.5);
+            color: var(--foam);
+            font-size: 0.78rem;
+            padding: 6px 18px;
+            border-radius: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+            animation: fadeDown 0.8s ease both;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.8rem, 6vw, 5rem);
+            color: var(--white);
+            line-height: 1.15;
+            margin-bottom: 20px;
+            animation: fadeDown 0.9s ease 0.1s both;
+        }
+        .hero h1 em {
+            font-style: italic;
+            color: var(--ocean-light);
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 560px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            animation: fadeDown 1s ease 0.2s both;
+        }
+        .hero-btns {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeDown 1s ease 0.3s both;
+        }
+        .btn-primary {
+            background: var(--coral);
+            color: white;
+            padding: 14px 34px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: all 0.25s;
+            box-shadow: 0 4px 20px rgba(231,111,81,0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(231,111,81,0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            color: white;
+            padding: 14px 34px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 2px solid rgba(255,255,255,0.6);
+            transition: all 0.25s;
+        }
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* ── SCROLL INDICATOR ── */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 2;
+            animation: fadeDown 1.2s ease 0.5s both;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: rgba(255,255,255,0.4);
+            animation: scrollPulse 2s ease infinite;
+        }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--deep);
+            padding: 28px 60px;
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+            color: white;
+        }
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--ocean-light);
+        }
+        .stat-label {
+            font-size: 0.78rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            margin-top: 4px;
+        }
+
+        /* ── SECTION COMMON ── */
+        section { padding: 90px 60px; }
+        .section-tag {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--ocean);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3vw, 2.6rem);
+            color: var(--deep);
+            margin-bottom: 16px;
+            line-height: 1.25;
+        }
+        .section-sub {
+            color: var(--gray);
+            max-width: 520px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .section-header { margin-bottom: 50px; }
+
+        /* ── RESORTS SECTION ── */
+        .resorts-section { background: #f8fbff; }
+        .resort-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .resort-card {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .resort-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0,119,182,0.15);
+        }
+        .card-img {
+            height: 180px;
+            background: linear-gradient(135deg, var(--ocean), var(--deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+        }
+        .card-body { padding: 22px; }
+        .card-body h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--deep);
+            margin-bottom: 6px;
+        }
+        .card-location {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .card-desc {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 18px;
+        }
+        .tag {
+            background: #e8f4fd;
+            color: var(--ocean);
+            font-size: 0.7rem;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .card-footer-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+        .price-tag {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--coral);
+            font-weight: 700;
+        }
+        .price-tag small {
+            font-family: 'Lato', sans-serif;
+            font-size: 0.72rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        .btn-book {
+            background: var(--ocean);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: background 0.2s;
+        }
+        .btn-book:hover { background: var(--deep); }
+
+        /* ── HOW IT WORKS ── */
+        .how-section { background: white; }
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .step {
+            text-align: center;
+            padding: 30px 20px;
+        }
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--ocean), var(--deep));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 18px;
+        }
+        .step h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05rem;
+            color: var(--deep);
+            margin-bottom: 8px;
+        }
+        .step p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        .step-number {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--ocean-light);
+            margin-bottom: 14px;
+            text-transform: uppercase;
+        }
+
+        /* ── CTA SECTION ── */
+        .cta-section {
+            background: linear-gradient(135deg, var(--deep), var(--ocean));
+            text-align: center;
+            padding: 90px 40px;
+            color: white;
+        }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            color: rgba(255,255,255,0.8);
+            max-width: 500px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--deep);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 32px;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        footer strong { color: var(--ocean-light); }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scrollPulse {
+            0%, 100% { transform: scaleY(1); opacity: 0.4; }
+            50%       { transform: scaleY(1.5); opacity: 1; }
+        }
+
+        /* ── NOTIFICATION BELL ── */
+        .notif-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 54px;
+            height: 54px;
+            background: var(--coral);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(231,111,81,0.4);
+            z-index: 999;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .notif-btn:hover { transform: scale(1.1); }
+
+        @media (max-width: 768px) {
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            section { padding: 60px 20px; }
+            .stats-bar { padding: 24px 20px; gap: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <a href="index.html" class="nav-logo">Beach<span>Watch</span></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="resorts.php">Resorts</a></li>
+        <li><a href="reservation.php">Reserve</a></li>
+        <li><a href="notifications.php">Notifications</a></li>
+        <li><a href="reservation.php" class="nav-cta">Book Now</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <span class="hero-badge">🌴 Davao Oriental Tourism</span>
+    <h1>Find Your<br/><em>Perfect Beach</em><br/>Getaway</h1>
+    <p>Discover and reserve the finest beach resorts in Davao Oriental. From world-class surfing to breathtaking eco-experiences.</p>
+    <div class="hero-btns">
+        <a href="resorts.php" class="btn-primary">Explore Resorts →</a>
+        <a href="reservation.php" class="btn-outline">Make a Reservation</a>
+    </div>
+    <div class="scroll-indicator">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+    </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stat">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Beach Resorts</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Davao Oriental</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">Real-time</div>
+        <div class="stat-label">Notifications</div>
+    </div>
+    <div class="stat">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Support</div>
+    </div>
+</div>
+
+<!-- RESORTS SECTION -->
+<section class="resorts-section">
+    <div class="section-header" style="text-align:center;">
+        <div class="section-tag">Featured Destinations</div>
+        <h2 class="section-title">Top Beach Resorts</h2>
+        <p class="section-sub" style="margin:0 auto;">Hand-picked resorts across the pristine coastlines and natural wonders of Davao Oriental.</p>
+    </div>
+    <div class="resort-grid">
+        <div class="resort-card">
+            <div class="card-img">🏄</div>
+            <div class="card-body">
+                <h3>Dahican Surf Resort</h3>
+                <p class="card-location">📍 Mati City, Davao Oriental</p>
+                <p class="card-desc">World-class surfing destination with pristine white sand and crystal-clear waters.</p>
+                <div class="card-tags">
+                    <span class="tag">Surfing</span>
+                    <span class="tag">Swimming Pool</span>
+                    <span class="tag">Restaurant</span>
+                </div>
+                <div class="card-footer-row">
+                    <div class="price-tag">₱2,500 <small>/night</small></div>
+                    <a href="reservation.php?resort_id=1" class="btn-book">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="resort-card">
+            <div class="card-img">⛰️</div>
+            <div class="card-body">
+                <h3>Cape San Agustin Resort</h3>
+                <p class="card-location">📍 Governor Generoso, Davao Oriental</p>
+                <p class="card-desc">Breathtaking cliff views and untouched natural beauty for adventurers.</p>
+                <div class="card-tags">
+                    <span class="tag">Snorkeling</span>
+                    <span class="tag">Camping</span>
+                    <span class="tag">Guided Tours</span>
+                </div>
+                <div class="card-footer-row">
+                    <div class="price-tag">₱1,800 <small>/night</small></div>
+                    <a href="reservation.php?resort_id=2" class="btn-book">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="resort-card">
+            <div class="card-img">🌊</div>
+            <div class="card-body">
+                <h3>Pujada Bay Eco Resort</h3>
+                <p class="card-location">📍 Mati City, Davao Oriental</p>
+                <p class="card-desc">Eco-friendly resort in Pujada Bay biodiversity hotspot. Perfect for diving.</p>
+                <div class="card-tags">
+                    <span class="tag">Diving</span>
+                    <span class="tag">Kayaking</span>
+                    <span class="tag">Eco-Tours</span>
+                </div>
+                <div class="card-footer-row">
+                    <div class="price-tag">₱3,200 <small>/night</small></div>
+                    <a href="reservation.php?resort_id=3" class="btn-book">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="resort-card">
+            <div class="card-img">🌿</div>
+            <div class="card-body">
+                <h3>Aliwagwag Paradise Resort</h3>
+                <p class="card-location">📍 Cateel, Davao Oriental</p>
+                <p class="card-desc">Near the majestic Aliwagwag Falls — experience cascading waterfalls and rainforest.</p>
+                <div class="card-tags">
+                    <span class="tag">Waterfall</span>
+                    <span class="tag">Nature Trails</span>
+                    <span class="tag">BBQ</span>
+                </div>
+                <div class="card-footer-row">
+                    <div class="price-tag">₱1,500 <small>/night</small></div>
+                    <a href="reservation.php?resort_id=4" class="btn-book">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="resort-card">
+            <div class="card-img">🌅</div>
+            <div class="card-body">
+                <h3>Tarragona Beach Club</h3>
+                <p class="card-location">📍 Tarragona, Davao Oriental</p>
+                <p class="card-desc">Quiet, secluded resort ideal for family getaways. Stunning sunrise views await.</p>
+                <div class="card-tags">
+                    <span class="tag">Family</span>
+                    <span class="tag">Volleyball</span>
+                    <span class="tag">Water Sports</span>
+                </div>
+                <div class="card-footer-row">
+                    <div class="price-tag">₱2,200 <small>/night</small></div>
+                    <a href="reservation.php?resort_id=5" class="btn-book">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:40px;">
+        <a href="resorts.php" class="btn-primary">View All Resorts →</a>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section">
+    <div class="section-header" style="text-align:center;">
+        <div class="section-tag">Simple Process</div>
+        <h2 class="section-title">How BeachWatch Works</h2>
+    </div>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">Step 01</div>
+            <div class="step-icon">🔍</div>
+            <h4>Browse Resorts</h4>
+            <p>Explore our curated list of beach resorts in Davao Oriental with full details and amenities.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">Step 02</div>
+            <div class="step-icon">📅</div>
+            <h4>Make a Reservation</h4>
+            <p>Choose your dates, number of guests, and any special requests then submit your booking.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">Step 03</div>
+            <div class="step-icon">🔔</div>
+            <h4>Get Notified</h4>
+            <p>Receive real-time notifications via our RabbitMQ messaging system when your booking is confirmed.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">Step 04</div>
+            <div class="step-icon">🏖️</div>
+            <h4>Enjoy Your Stay</h4>
+            <p>Pack your bags and enjoy the beautiful beaches of Davao Oriental!</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready for Your Beach Adventure?</h2>
+    <p>Book your perfect beach resort today and experience the natural wonders of Davao Oriental.</p>
+    <a href="reservation.php" class="btn-primary" style="font-size:1rem;padding:16px 40px;">Reserve Now →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p><strong>BeachWatch</strong> — Beach Resort Reservation & Tourism Enhancement System</p>
+    <p>ITP 121 – Integrative Programming & Technologies 1 | BSIT | Davao Oriental State University</p>
+    <p style="margin-top:10px;">Built with PHP · MySQL · RabbitMQ · XML/XSLT · Bash</p>
+</footer>
+
+<!-- Notification Bell -->
+<a href="notifications.php" class="notif-btn" title="View Notifications">🔔</a>
+
+<script>
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 60) {
+            nav.style.background = 'rgba(3, 4, 94, 0.97)';
+        } else {
+            nav.style.background = 'rgba(3, 4, 94, 0.85)';
+        }
+    });
+</script>
+</body>
+</html>
